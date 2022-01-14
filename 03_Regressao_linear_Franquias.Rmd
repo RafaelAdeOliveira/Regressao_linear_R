@@ -1,0 +1,26 @@
+---
+Formação Cientista de Dados - Rafael Amaral de Oliveira
+Regressão Linear - Franquias
+---
+Importação dos dados
+```{r}
+dadosFranquia = read.csv("slr12.csv", sep = ";")
+dadosFranquia
+```
+Modelo
+```{r}
+modelo = lm(CusInic ~ FrqAnual,data = dadosFranquia)
+modelo
+```
+Visualização da relação entre variáveis e linha de melhor ajuste
+```{r}
+# Executar com Ctrl + Shift + Enter
+plot(CusInic ~ FrqAnual,data = dadosFranquia)
+abline(modelo)
+```
+Prevendo valor anual da franquia = R$ 1300
+```{r}
+prev = predict(modelo, data.frame(FrqAnual = 1300))
+prev = paste0("Previsão do Custo Anual Inicial: R$ ", round(prev, 2))
+print(prev)
+```
