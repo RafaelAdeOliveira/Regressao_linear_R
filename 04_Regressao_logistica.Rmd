@@ -1,0 +1,53 @@
+---
+Formação Cientista de Dados - Rafael Amaral de Oliveira
+Regressão Logística
+---
+Importação de dados
+```{r}
+eleicao = read.csv("Eleicao.csv", sep = ";", header = T)
+eleicao
+```
+Gráfico e visualização
+```{r}
+plot(eleicao$DESPESAS, eleicao$SITUACAO)
+summary(eleicao)
+```
+Correlação
+```{r}
+cor(eleicao$DESPESAS, eleicao$SITUACAO)
+```
+Modelo de Regressão logística
+```{r}
+modelo = glm(SITUACAO ~ DESPESAS, data = eleicao, family = "binomial")
+summary(modelo)
+```
+Modelo comparado aos dados
+```{r}
+# Executar com Ctrl + Shift + Enter
+plot(eleicao$DESPESAS, eleicao$SITUACAO, col='red', pch=20)
+points(eleicao$DESPESAS, modelo$fitted, pch = 4)
+```
+Testar o modelo com os próprios candidatos
+```{r}
+prever = predict(modelo, newdata = eleicao, type = "response")
+prever = prever >= 0.5
+prever
+```
+Avaliar performance
+```{r}
+confusao = table(prever, eleicao$SITUACAO)
+confusao
+taxaAcerto = (confusao[1] + confusao[4]) / sum(confusao)
+taxaAcerto
+```
+Novos candidatos
+```{r}
+preverEleicao = read.csv("NovosCandidatos.csv", sep = ";",header = T)
+preverEleicao
+```
+Previsão
+```{r}
+preverEleicao$RESULT = predict(modelo, newdata = preverEleicao, type = "response")
+preverEleicao$RESULT
+preverEleicao$RESULT >= 0.5
+```
